@@ -1,0 +1,93 @@
+================ TEST 1: ShrubberyCreationForm =================
+main
+  │
+  ▼
+Intern.makeForm("shrubbery creation", "home")
+  │
+  ├─> Cherche "shrubbery creation" dans FormFactory
+  │
+  └─> createShrubbery("home") → retourne AForm* (ShrubberyCreationForm)
+          │
+          ▼
+     Bureaucrat Bob (grade 130)
+          │
+          ├─> Bob.signForm(ShrubberyCreationForm)
+          │      │
+          │      └─> vérifie le grade pour signer → ok
+          │
+          └─> Bob.executeForm(ShrubberyCreationForm)
+                 │
+                 ├─> AForm::execute() (check signature & grade)
+                 │
+                 └─> executeAction() spécifique Shrubbery
+                        │
+                        └─> crée fichier "home_shrubbery" avec arbres ASCII
+Destructeurs appelés dans l’ordre → ShrubberyCreationForm, AForm, Intern
+
+================================================================
+
+================ TEST 2: RobotomyRequestForm =================
+main
+  │
+  ▼
+Intern.makeForm("robotomy request", "Bender")
+  │
+  ├─> Cherche "robotomy request" dans FormFactory
+  │
+  └─> createRobotomy("Bender") → retourne AForm* (RobotomyRequestForm)
+          │
+          ▼
+     Bureaucrat Alice (grade 40)
+          │
+          ├─> Alice.signForm(RobotomyRequestForm)
+          │      └─> vérifie grade → ok
+          │
+          └─> Alice.executeForm(RobotomyRequestForm)
+                 │
+                 ├─> AForm::execute() (check signature & grade)
+                 │
+                 └─> executeAction() spécifique Robotomy
+                        │
+                        └─> BZZZZ bruit + succès ou échec aléatoire (50%)
+Destructeurs appelés → RobotomyRequestForm, AForm, Intern
+
+================================================================
+
+================ TEST 3: PresidentialPardonForm =================
+main
+  │
+  ▼
+Intern.makeForm("presidential pardon", "Arthur Dent")
+  │
+  ├─> Cherche "presidential pardon" dans FormFactory
+  │
+  └─> createPresidential("Arthur Dent") → retourne AForm* (PresidentialPardonForm)
+          │
+          ▼
+     Bureaucrat President (grade 1)
+          │
+          ├─> President.signForm(PresidentialPardonForm)
+          │      └─> vérifie grade → ok
+          │
+          └─> President.executeForm(PresidentialPardonForm)
+                 │
+                 ├─> AForm::execute() (check signature & grade)
+                 │
+                 └─> executeAction() spécifique PresidentialPardon
+                        │
+                        └─> affiche "Arthur Dent has been pardoned by Zaphod Beeblebrox"
+Destructeurs appelés → PresidentialPardonForm, AForm, Intern
+
+================================================================
+
+================ TEST 4: Formulaire inconnu =================
+main
+  │
+  ▼
+Intern.makeForm("unknown form", "Nobody")
+  │
+  ├─> Cherche "unknown form" dans FormFactory
+  │
+  └─> non trouvé → message d'erreur :
+         "Error: form unknown form does not exist"
+Destructeur Intern appelé
